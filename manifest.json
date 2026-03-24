@@ -1,0 +1,10 @@
+{
+  "name": "Kraken Flight",
+  "short_name": "Kraken Flight",
+  "description": "Drone pre-flight checks, weather and flight logging",
+  "start_url": "/kraken-flight/",
+  "display": "standalone",
+  "background_color": "#0D1111",
+  "theme_color": "#0D1111",
+  "orientation": "portrait-primary"
+}
