@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PreFlight">
+  <meta name="theme-color" content="#0D1111">
+  <title>PreFlight — Drone Ops</title>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230D1111'/><text y='.9em' font-size='80' x='10'>✈</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn active" data-view="preflight">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <span>Pre-Flight</span>
+  </button>
+  <button class="nav-btn" data-view="weather">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+    <span>Weather</span>
+  </button>
+  <button class="nav-btn" data-view="logs">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+    <span>Logs</span>
+  </button>
+  <button class="nav-btn" data-view="docs">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+    <span>Docs</span>
+  </button>
+  <button class="nav-btn" data-view="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+    <span>Settings</span>
+  </button>
+</nav>
+
+<!-- VIEWS -->
+<main class="main">
+
+  <!-- ═══════════════════════ PRE-FLIGHT VIEW ═══════════════════════ -->
+  <div class="view active" id="view-preflight">
+    <div class="view-inner">
+
+      <div class="page-header">
+        <div>
+          <div class="page-label">PREFLIGHT CHECKS</div>
+          <div class="page-title" id="pf-date-display">Loading...</div>
+        </div>
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring" viewBox="0 0 44 44">
+            <circle class="ring-bg" cx="22" cy="22" r="18"/>
+            <circle class="ring-fill" cx="22" cy="22" r="18" id="ring-fill"/>
+          </svg>
+          <span class="ring-pct" id="ring-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- Flight meta -->
+      <div class="card meta-card">
+        <div class="card-row">
+          <div class="field-group">
+            <label class="field-label">LOCATION / SITE</label>
+            <input class="field-input" id="pf-location" type="text" placeholder="e.g. Aberdeen Harbour">
+          </div>
+          <button class="icon-btn locate-btn" id="locate-btn" title="Use current location">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="field-group">
+            <label class="field-label">AIRCRAFT</label>
+            <select class="field-input" id="pf-aircraft">
+              <option value="">— Select aircraft —</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">OPERATION</label>
+            <select class="field-input" id="pf-op">
+              <option>A1 — Over uninvolved persons</option>
+              <option>A2 — Close proximity</option>
+              <option>A3 — Away from people</option>
+              <option>STS / Specific auth</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="field-group full">
+            <label class="field-label">PILOT</label>
+            <input class="field-input" id="pf-pilot" type="text" placeholder="Pilot name">
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="field-group">
+            <label class="field-label">CLIENT / JOB NAME</label>
+            <input class="field-input" id="pf-client" type="text" placeholder="e.g. Kraken — Aberdeen yard">
+          </div>
+          <div class="field-group">
+            <label class="field-label">JOB REF</label>
+            <input class="field-input" id="pf-jobref" type="text" placeholder="e.g. KR-2026-041">
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather strip -->
+      <div class="weather-strip" id="pf-weather-strip">
+        <div class="wx-item"><span class="wx-val" id="wx-temp">--</span><span class="wx-lbl">TEMP</span></div>
+        <div class="wx-divider"></div>
+        <div class="wx-item"><span class="wx-val" id="wx-wind">--</span><span class="wx-lbl">WIND</span></div>
+        <div class="wx-divider"></div>
+        <div class="wx-item"><span class="wx-val" id="wx-gust">--</span><span class="wx-lbl">GUST</span></div>
+        <div class="wx-divider"></div>
+        <div class="wx-item"><span class="wx-val" id="wx-vis">--</span><span class="wx-lbl">VIS</span></div>
+        <div class="wx-divider"></div>
+        <div class="wx-item"><span class="wx-val" id="wx-cloud">--</span><span class="wx-lbl">CLOUD</span></div>
+        <div class="wx-go" id="wx-go-badge">--</div>
+      </div>
+
+      <!-- Checklist sections -->
+      <div id="checklist-container"></div>
+
+      <!-- Notes -->
+      <div class="card">
+        <div class="section-header-row">
+          <span class="section-title">FLIGHT NOTES</span>
+        </div>
+        <textarea class="notes-input" id="pf-notes" placeholder="NOTAMs, permission refs, site observations, anomalies..."></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-row">
+        <button class="btn-primary" id="save-log-btn">SAVE FLIGHT RECORD</button>
+        <button class="btn-ghost" id="reset-btn">RESET</button>
+      </div>
+      <div class="action-row" style="margin-top:0;">
+        <button class="btn-ghost" id="postflight-btn" style="flex:1;border-color:rgba(232,77,53,0.3);color:var(--accent);">+ POST-FLIGHT LOG</button>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ WEATHER VIEW ═══════════════════════ -->
+  <div class="view" id="view-weather">
+    <div class="view-inner">
+      <div class="page-header">
+        <div>
+          <div class="page-label">WEATHER</div>
+          <div class="page-title" id="wx-location-name">Fetching location...</div>
+        </div>
+        <button class="icon-btn" id="wx-refresh-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+      </div>
+
+      <div class="go-nogo-banner" id="go-nogo-banner">
+        <span class="go-nogo-label" id="go-nogo-label">ASSESSING...</span>
+        <span class="go-nogo-reason" id="go-nogo-reason">Fetching weather data</span>
+      </div>
+
+      <div class="wx-grid" id="wx-main-grid">
+        <div class="wx-card"><div class="wx-card-val" id="wv-temp">--</div><div class="wx-card-lbl">Temperature</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-feels">--</div><div class="wx-card-lbl">Feels like</div></div>
+        <div class="wx-card wx-card-accent" id="wv-wind-card"><div class="wx-card-val" id="wv-wind">--</div><div class="wx-card-lbl">Wind speed</div></div>
+        <div class="wx-card wx-card-accent" id="wv-gust-card"><div class="wx-card-val" id="wv-gust">--</div><div class="wx-card-lbl">Gusts</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-dir">--</div><div class="wx-card-lbl">Wind direction</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-vis">--</div><div class="wx-card-lbl">Visibility</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-cloud">--</div><div class="wx-card-lbl">Cloud cover</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-precip">--</div><div class="wx-card-lbl">Precipitation</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-humid">--</div><div class="wx-card-lbl">Humidity</div></div>
+        <div class="wx-card"><div class="wx-card-val" id="wv-pressure">--</div><div class="wx-card-lbl">Pressure</div></div>
+      </div>
+
+      <div class="card">
+        <div class="section-header-row"><span class="section-title">HOURLY FORECAST</span></div>
+        <div class="hourly-list" id="hourly-list"></div>
+      </div>
+
+      <div class="wx-updated" id="wx-updated">Last updated: --</div>
+      <div class="bottom-spacer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ LOGS VIEW ═══════════════════════ -->
+  <div class="view" id="view-logs">
+    <div class="view-inner">
+      <div class="page-header">
+        <div>
+          <div class="page-label">FLIGHT LOG</div>
+          <div class="page-title" id="log-count-title">0 Records</div>
+        </div>
+        <button class="icon-btn" id="export-btn" title="Export logs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
+      </div>
+      <div class="filter-row">
+        <select class="field-input filter-select" id="log-filter-client">
+          <option value="">All clients / jobs</option>
+        </select>
+        <button class="btn-ghost small" id="log-filter-clear" style="display:none;">Clear</button>
+      </div>
+      <div id="logs-list"></div>
+      <div class="bottom-spacer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SETTINGS VIEW ═══════════════════════ -->
+  <div class="view" id="view-settings">
+    <div class="view-inner">
+      <div class="page-header">
+        <div>
+          <div class="page-label">SETTINGS</div>
+          <div class="page-title">Configuration</div>
+        </div>
+      </div>
+
+      <!-- Pilot profile -->
+      <div class="card">
+        <div class="section-header-row"><span class="section-title">PILOT PROFILE</span></div>
+        <div class="setting-row">
+          <label class="field-label">FULL NAME</label>
+          <input class="field-input" id="s-pilot-name" type="text" placeholder="Your name">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">CAA OPERATOR ID</label>
+          <input class="field-input" id="s-operator-id" type="text" placeholder="e.g. OP-XXXXXXX">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">FLYER ID</label>
+          <input class="field-input" id="s-flyer-id" type="text" placeholder="e.g. FLY-XXXXXXX">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">QUALIFICATION</label>
+          <select class="field-input" id="s-qual">
+            <option>A2 CofC</option>
+            <option>GVC</option>
+            <option>GVC + A2 CofC</option>
+            <option>PFAW (legacy)</option>
+          </select>
+        </div>
+        <button class="btn-primary small" id="save-pilot-btn">SAVE PROFILE</button>
+      </div>
+
+      <!-- Aircraft -->
+      <div class="card">
+        <div class="section-header-row">
+          <span class="section-title">AIRCRAFT</span>
+          <button class="btn-ghost small" id="add-aircraft-btn">+ ADD</button>
+        </div>
+        <div id="aircraft-list"></div>
+      </div>
+
+      <!-- Add aircraft form (hidden by default) -->
+      <div class="card hidden" id="aircraft-form-card">
+        <div class="section-header-row"><span class="section-title">NEW AIRCRAFT</span></div>
+        <div class="setting-row">
+          <label class="field-label">NAME / MODEL</label>
+          <input class="field-input" id="ac-name" type="text" placeholder="e.g. DJI Mavic 3E">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">SERIAL NUMBER</label>
+          <input class="field-input" id="ac-serial" type="text" placeholder="Serial number">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">MAX WIND RATING (kt)</label>
+          <input class="field-input" id="ac-wind" type="number" placeholder="e.g. 22" value="22">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">NOTES</label>
+          <input class="field-input" id="ac-notes" type="text" placeholder="e.g. C1 class, thermal sensor">
+        </div>
+        <div class="action-row">
+          <button class="btn-primary small" id="save-aircraft-btn">SAVE AIRCRAFT</button>
+          <button class="btn-ghost small" id="cancel-aircraft-btn">CANCEL</button>
+        </div>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ DOCS VIEW ═══════════════════════ -->
+  <div class="view" id="view-docs">
+    <div class="view-inner">
+      <div class="page-header">
+        <div>
+          <div class="page-label">DOCUMENTS</div>
+          <div class="page-title">Vault</div>
+        </div>
+        <button class="btn-primary small" id="add-doc-btn">+ ADD DOC</button>
+      </div>
+
+      <div class="doc-expiry-banner hidden" id="doc-expiry-banner"></div>
+
+      <div id="docs-list"></div>
+
+      <!-- Upload form (hidden by default) -->
+      <div class="card hidden" id="doc-form-card">
+        <div class="section-header-row"><span class="section-title">ADD DOCUMENT</span></div>
+        <div class="setting-row">
+          <label class="field-label">DOCUMENT NAME</label>
+          <input class="field-input" id="doc-name" type="text" placeholder="e.g. Public Liability Insurance">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">CATEGORY</label>
+          <select class="field-input" id="doc-category">
+            <option>Insurance</option>
+            <option>Qualification</option>
+            <option>Registration</option>
+            <option>Permission</option>
+            <option>Risk Assessment</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <label class="field-label">EXPIRY DATE (optional)</label>
+          <input class="field-input" id="doc-expiry" type="date">
+        </div>
+        <div class="setting-row">
+          <label class="field-label">FILE (PDF or image)</label>
+          <input class="field-input doc-file-input" id="doc-file" type="file" accept=".pdf,image/*">
+        </div>
+        <div class="doc-file-info hidden" id="doc-file-info"></div>
+        <div class="action-row" style="margin-top:12px;">
+          <button class="btn-primary small" id="save-doc-btn">SAVE DOCUMENT</button>
+          <button class="btn-ghost small" id="cancel-doc-btn">CANCEL</button>
+        </div>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- POST-FLIGHT MODAL -->
+<div class="modal-overlay hidden" id="postflight-modal">
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <span class="modal-title">POST-FLIGHT LOG</span>
+      <button class="icon-btn" id="postflight-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">FLIGHT TIMES</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
+          <div>
+            <label class="field-label">TAKE-OFF TIME</label>
+            <input class="field-input" id="pfl-takeoff" type="time">
+          </div>
+          <div>
+            <label class="field-label">LANDING TIME</label>
+            <input class="field-input" id="pfl-landing" type="time">
+          </div>
+        </div>
+        <div class="duration-display" id="pfl-duration-display"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">BATTERY</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="field-label">BATTERIES USED</label>
+            <input class="field-input" id="pfl-batteries-used" type="number" placeholder="e.g. 2" min="0" max="20">
+          </div>
+          <div>
+            <label class="field-label">FINAL CHARGE %</label>
+            <input class="field-input" id="pfl-battery-remaining" type="number" placeholder="e.g. 22" min="0" max="100">
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">INCIDENTS & ANOMALIES</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;" id="incident-list"></div>
+        <button class="btn-ghost small" id="add-incident-btn" style="width:100%;">+ ADD INCIDENT</button>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">POST-FLIGHT NOTES</div>
+        <textarea class="notes-input" id="pfl-notes" placeholder="General observations, conditions, next steps..."></textarea>
+      </div>
+      <div class="action-row">
+        <button class="btn-primary" id="save-postflight-btn">SAVE POST-FLIGHT LOG</button>
+      </div>
+      <div style="height:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG DETAIL MODAL -->
+<div class="modal-overlay hidden" id="log-modal">
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Flight Record</span>
+      <button class="icon-btn" id="modal-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
