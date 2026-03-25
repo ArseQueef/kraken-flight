@@ -7,13 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PreFlight">
   <meta name="theme-color" content="#0D1111">
-  <title>Kraken Flight</title>
-  <link rel="apple-touch-icon" href="assets/kraken-flight-logo.jpg"> 
+  <title>PreFlight — Drone Ops</title>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230D1111'/><text y='.9em' font-size='80' x='10'>✈</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -217,6 +216,17 @@
         <div>
           <div class="page-label">SETTINGS</div>
           <div class="page-title">Configuration</div>
+        </div>
+      </div>
+
+      <!-- Appearance -->
+      <div class="card">
+        <div class="section-header-row"><span class="section-title">APPEARANCE</span></div>
+        <div class="setting-row" style="display:flex;align-items:center;justify-content:space-between;">
+          <label class="field-label" style="margin:0;">LIGHT MODE</label>
+          <button class="theme-toggle" id="theme-toggle">
+            <span class="theme-toggle-knob"></span>
+          </button>
         </div>
       </div>
 

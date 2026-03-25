@@ -59,7 +59,7 @@ html, body {
   margin: 0 auto;
 }
 
-.bottom-spacer { height: 48px; }
+.bottom-spacer { height: 90px; }
 
 /* ── NAV ─────────────────────────────────────────────────────── */
 .nav {
@@ -874,7 +874,7 @@ select.field-input { cursor: pointer; }
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--accent);
-  padding: 6px 0 2px;
+  padding: 8px 0 8px;
   min-height: 22px;
 }
 
@@ -975,7 +975,7 @@ select.field-input { cursor: pointer; }
   border-radius: 4px;
   background: rgba(232,77,53,0.12);
   color: var(--accent);
-  margin-top: 4px;
+  margin-top: 8px;
   display: inline-block;
 }
 
@@ -1003,4 +1003,46 @@ select.field-input { cursor: pointer; }
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-dim);
+}
+
+/* ── THEME TOGGLE ────────────────────────────────────────────── */
+.theme-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 13px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  padding: 0;
+  -webkit-appearance: none;
+}
+
+.theme-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 0.2s, background 0.2s;
+  display: block;
+}
+
+body.light-mode .theme-toggle { background: var(--accent); border-color: var(--accent); }
+body.light-mode .theme-toggle-knob { transform: translateX(18px); background: #fff; }
+
+/* ── LIGHT MODE ──────────────────────────────────────────────── */
+body.light-mode {
+  --bg:        #F2F3F2;
+  --bg2:       #FFFFFF;
+  --bg3:       #E8E9E8;
+  --border:    rgba(13,17,17,0.1);
+  --border2:   rgba(13,17,17,0.2);
+  --text:      #0D1111;
+  --text-muted:#4a5555;
+  --text-dim:  #8a9191;
 }

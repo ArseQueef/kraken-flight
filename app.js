@@ -533,6 +533,14 @@ function setupSettings() {
     loadAircraftDropdown();
     showToast('Aircraft saved');
   });
+
+  // Theme toggle
+  const savedTheme = STORE.get('pf_theme', 'dark');
+  if (savedTheme === 'light') document.body.classList.add('light-mode');
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const isLight = document.body.classList.toggle('light-mode');
+    STORE.set('pf_theme', isLight ? 'light' : 'dark');
+  });
 }
 
 // ── SAVE FLIGHT LOG ───────────────────────────────────────────
