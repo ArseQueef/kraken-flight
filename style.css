@@ -19,7 +19,7 @@
   --font-body: 'Barlow', sans-serif;
   --font-cond: 'Barlow Condensed', sans-serif;
   --safe-top:  env(safe-area-inset-top, 0px);
-  --safe-bot:  env(safe-area-inset-bottom, 0px);
+  --safe-bot:  0px;
 }
 
 html, body {
@@ -30,6 +30,7 @@ html, body {
   font-size: 15px;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 /* ── LAYOUT ──────────────────────────────────────────────────── */
@@ -73,6 +74,7 @@ html, body {
   border-top: 1px solid var(--border);
   display: flex;
   z-index: 100;
+  box-shadow: 0 calc(var(--safe-bot) * -1) 0 var(--bg2);
 }
 
 .nav-btn {
