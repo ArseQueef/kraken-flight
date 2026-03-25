@@ -236,6 +236,9 @@ function setupPreflightEvents() {
     openPostFlightModal();
   });
 
+  // Save log
+  document.getElementById('save-log-btn').addEventListener('click', saveFlightLog);
+
   // Reset
   document.getElementById('reset-btn').addEventListener('click', () => {
     if (!confirm('Reset all checks for a new flight?')) return;
